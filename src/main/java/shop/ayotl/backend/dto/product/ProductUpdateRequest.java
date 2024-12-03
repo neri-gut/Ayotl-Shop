@@ -1,6 +1,5 @@
 package shop.ayotl.backend.dto.product;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import shop.ayotl.backend.model.Category;
@@ -10,9 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Builder
-public class ProductDto {
-
+public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String description;
