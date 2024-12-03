@@ -9,7 +9,11 @@ import shop.ayotl.backend.model.User;
 
 public class CartDtoConverter {
     public CartDto modelToDto(Cart model){
-    return CartDto.builder().id(model.getId()).userId(model.getUser().getId()).createdAt(model.getCreatedAt()).build();
+    return CartDto.builder()
+            .id(model.getId())
+            .userId(model.getUser().getId())
+            .createdAt(model.getCreatedAt())
+            .build();
     }
 
 public Cart dtoToModel(CartDto dto, User user){

@@ -9,9 +9,9 @@ public class CartProductDtoConverter {
         return CartProductDto
                 .builder()
                 .id(model.getId())
-                .cartId(model.)
-                .productId(model.getProduct())
-                .quantity(model.getQuantity())
+                .cartId(model.getCart().getId())
+                .productId(model.getProduct().getId())
+                .quantity(Long.valueOf(model.getQuantity()))
                 .build();
     }
 }
@@ -29,4 +29,4 @@ public class CartProductDtoConverter {
         .createAt(product.getCreatedAt())
         .updateAt(product.getUpdatedAt())
         .build();
- return Cart.builder().id(dto.getId()).user(user).createdAt(dto.getCreatedAt()).build();
+ return Cart.builder().id(dto.getId()).user(user).createdAt(dto.getCreatedAt()).build();*/
