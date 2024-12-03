@@ -1,9 +1,11 @@
 package shop.ayotl.backend.controller.cart;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import shop.ayotl.backend.dto.cart.CartCreateRequest;
 import shop.ayotl.backend.dto.cart.CartOutputDto;
 import shop.ayotl.backend.service.cart.CartService;
 
@@ -29,8 +31,8 @@ public class CartController {
         return ResponseEntity.ok(found);
     }
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CartOutputDto> create(@RequestBody Long userId){
-        final var created = service.create(userId);
+    public ResponseEntity<CartOutputDto> create(@RequestBody @Valid CartCreateRequest request){
+        final var created = service.create(request.getUserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

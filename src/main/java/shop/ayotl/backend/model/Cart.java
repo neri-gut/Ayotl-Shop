@@ -1,8 +1,8 @@
 package shop.ayotl.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 
@@ -22,7 +22,12 @@ public class Cart {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @NotNull
     @Column(name = "created_at")
-    @CreatedDate
     private LocalDate createdAt;
+
+    @PrePersist
+    private void fillCreatedAt() {
+        this.createdAt = LocalDate.now();
+    }
 }
