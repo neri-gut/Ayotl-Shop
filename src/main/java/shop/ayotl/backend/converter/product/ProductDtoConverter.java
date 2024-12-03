@@ -1,6 +1,5 @@
 package shop.ayotl.backend.converter.product;
 
-import shop.ayotl.backend.dto.category.CategoryDto;
 import shop.ayotl.backend.dto.product.ProductCreateRequest;
 import shop.ayotl.backend.dto.product.ProductDto;
 import shop.ayotl.backend.dto.product.ProductUpdateRequest;

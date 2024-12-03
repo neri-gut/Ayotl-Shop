@@ -37,6 +37,7 @@ public class DtoConverterBeanConfig {
     @Bean
     public CartDtoConverter cartDtoConverter(){ return new CartDtoConverter();}
 
+    @Bean
     public ProductDtoConverter productDtoConverter(){
         return new ProductDtoConverter();
     }

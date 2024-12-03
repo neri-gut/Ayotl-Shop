@@ -1,8 +1,8 @@
 package shop.ayotl.backend.repository.product;
 
-import jakarta.persistence.PersistenceException;
 import org.springframework.stereotype.Repository;
 import shop.ayotl.backend.config.exception.NotFoundException;
+import shop.ayotl.backend.config.exception.PersistenceException;
 import shop.ayotl.backend.converter.product.ProductDtoConverter;
 import shop.ayotl.backend.dto.product.ProductDto;
 import shop.ayotl.backend.repository.category.JpaCategoryRepository;
