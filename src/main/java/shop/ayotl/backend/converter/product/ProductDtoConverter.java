@@ -5,10 +5,7 @@ import shop.ayotl.backend.common.constant.DatePattern;
 import shop.ayotl.backend.converter.bigdecimal.BigDecimalConverter;
 import shop.ayotl.backend.converter.date.DateConverter;
 import shop.ayotl.backend.dto.category.CategoryDto;
-import shop.ayotl.backend.dto.product.ProductCreateRequest;
-import shop.ayotl.backend.dto.product.ProductDto;
-import shop.ayotl.backend.dto.product.ProductOutputDto;
-import shop.ayotl.backend.dto.product.ProductUpdateRequest;
+import shop.ayotl.backend.dto.product.*;
 import shop.ayotl.backend.model.Category;
 import shop.ayotl.backend.model.Product;
 
@@ -57,6 +54,15 @@ public class ProductDtoConverter {
                 .imageDataUrl(imageDataUrl)
                 .createdAt(DateConverter.temporalToString(dto.getCreateAt(), DATE_PATTERN))
                 .updatedAt(DateConverter.temporalToString(dto.getUpdateAt(), DATE_PATTERN))
+                .build();
+    }
+
+    public ProductInCartOutputDto inCartDtoToInCartOutputDto(ProductInCartDto dto, String imageDataUrl) {
+        return ProductInCartOutputDto.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .quantity(dto.getQuantity())
+                .imageDataUrl(imageDataUrl)
                 .build();
     }
 

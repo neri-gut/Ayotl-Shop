@@ -6,6 +6,7 @@ import shop.ayotl.backend.config.exception.PersistenceException;
 import shop.ayotl.backend.converter.category.CategoryDtoConverter;
 import shop.ayotl.backend.converter.product.ProductDtoConverter;
 import shop.ayotl.backend.dto.product.ProductDto;
+import shop.ayotl.backend.dto.product.ProductInCartDto;
 
 import java.util.List;
 
@@ -23,6 +24,11 @@ public class MySQLProductRepository implements ProductRepository {
         this.jpaProductRepository = jpaProductRepository;
         this.converter = converter;
         this.categoryConverter = categoryConverter;
+    }
+
+    @Override
+    public List<ProductInCartDto> findAllInUserCart(Long userId, Long cartId) {
+        return jpaProductRepository.findAllInUserCart(userId, cartId);
     }
 
     @Override

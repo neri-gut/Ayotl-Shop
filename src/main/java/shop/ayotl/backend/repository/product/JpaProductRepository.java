@@ -3,6 +3,7 @@ package shop.ayotl.backend.repository.product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import shop.ayotl.backend.dto.product.ProductInCartDto;
 import shop.ayotl.backend.model.Product;
 
 import java.util.List;
@@ -19,4 +20,14 @@ WHERE (c.id = :categoryId OR :categoryId IS NULL)
     AND (LOWER(p.name) LIKE CONCAT('%', LOWER(:name), '%') OR :name IS NULL OR LENGTH(TRIM(:name)) = 0)
 """)
     List<Product> findAllWithFilters(@Param("categoryId") Long categoryId, @Param("name") String name);
+
+    @Query("""
+SELECT new shop.ayotl.backend.dto.product.ProductInCartDto(p.id, p.name, p.imagePath, p.imageMimeType, cp.quantity)
+FROM CartProduct cp
+INNER JOIN cp.product p
+INNER JOIN cp.cart c
+INNER JOIN c.user u
+WHERE u.id = :userId AND c.id = :cartId
+""")
+    List<ProductInCartDto> findAllInUserCart(@Param("userId") Long userId, @Param("cartId") Long cartId);
 }

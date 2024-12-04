@@ -6,9 +6,12 @@ import org.springframework.web.multipart.MultipartFile;
 import shop.ayotl.backend.config.exception.*;
 import shop.ayotl.backend.config.storage.ProductImgConfig;
 import shop.ayotl.backend.converter.product.ProductDtoConverter;
+import shop.ayotl.backend.dto.cart.CartDto;
 import shop.ayotl.backend.dto.product.*;
+import shop.ayotl.backend.repository.cart.CartRepository;
 import shop.ayotl.backend.repository.category.CategoryRepository;
 import shop.ayotl.backend.repository.product.ProductRepository;
+import shop.ayotl.backend.service.authentication.AuthenticationService;
 import shop.ayotl.backend.service.file.FileService;
 
 import java.io.File;
@@ -18,6 +21,8 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
+    private final AuthenticationService authenticationService;
+    private final CartRepository cartRepository;
     private final ProductImgConfig productImgConfig;
     private final FileService fileService;
     private final CategoryRepository categoryRepository;
@@ -25,16 +30,56 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl(
             ProductRepository repository,
+            AuthenticationService authenticationService,
+            CartRepository cartRepository,
             ProductImgConfig productImgConfig,
             FileService fileService,
             CategoryRepository categoryRepository,
             ProductDtoConverter converter
     ) {
         this.repository = repository;
+        this.authenticationService = authenticationService;
+        this.cartRepository = cartRepository;
         this.productImgConfig = productImgConfig;
         this.fileService = fileService;
         this.categoryRepository = categoryRepository;
         this.converter = converter;
+    }
+
+    @Override
+    public List<ProductInCartOutputDto> findAllInUserCart() {
+        final var authUser = authenticationService.authenticatedUser();
+        final var userId = authUser.getId();
+        CartDto userCart;
+
+        try {
+            userCart = cartRepository.findByUserId(userId);
+        }
+        catch (NotFoundException e) {
+            userCart = CartDto.builder()
+                    .userId(userId)
+                    .build();
+            userCart = cartRepository.save(userCart);
+        }
+
+        final var results = new ArrayList<ProductInCartOutputDto>();
+
+        for (final var productInCartDto : repository.findAllInUserCart(userId, userCart.getId())) {
+            final var imageFile = new File(productInCartDto.getImagePath());
+            final String imageDataUrl;
+
+            try {
+                imageDataUrl = fileService.fileToDataUrl(imageFile, productInCartDto.getImageMimeType());
+            }
+            catch (java.io.IOException e) {
+                throw new IOException("Error al recuperar la imagen del producto: " + productInCartDto.getName(), "");
+            }
+
+            final var outputDto = converter.inCartDtoToInCartOutputDto(productInCartDto, imageDataUrl);
+            results.add(outputDto);
+        }
+
+        return results;
     }
 
     @Override
