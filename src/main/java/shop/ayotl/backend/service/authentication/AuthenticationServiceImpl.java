@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         final var userFound = userRepository.findByEmail(request.getEmail());
-        final var jwt = jwtService.generateAuthenticationToken(userFound.getEmail());
+        final var jwt = jwtService.generateAuthenticationToken(userFound);
 
         return new LoginResponse(jwt);
     }

@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
+import shop.ayotl.backend.dto.role.RoleDto;
+import shop.ayotl.backend.dto.user.UserDto;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -19,9 +21,15 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateAuthenticationToken(final String username) {
+    public String generateAuthenticationToken(final UserDto user) {
+        final var roleNames = user.getRoles()
+                .stream()
+                .map(RoleDto::getName)
+                .toList();
+
         return Jwts.builder()
-                .subject(username)
+                .subject(user.getEmail())
+                .claim("roles", roleNames)
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtConfig.getExpiration()))
                 .signWith(signingKey(), Jwts.SIG.HS512)
