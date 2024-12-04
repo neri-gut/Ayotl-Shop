@@ -36,3 +36,4 @@ build/
 ### Other files and directories
 .env
 .env.*
+products/
