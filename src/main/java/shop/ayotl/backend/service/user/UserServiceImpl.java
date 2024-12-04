@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static shop.ayotl.backend.common.constant.role.RoleConstants.ADMIN;
+import static shop.ayotl.backend.common.constant.role.RoleConstants.CUSTOMER;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,6 +73,9 @@ public class UserServiceImpl implements UserService {
             throw new DuplicatedDataException("El email ya se encuentra registrado", "");
         }
         catch (NotFoundException e) {}
+
+        final var userRole = roleRepository.findByName(CUSTOMER);
+        request.setRoleId(userRole.getId());
 
         // Hash the password
         request.setPassword(passwordEncoder.encode(request.getPassword()));

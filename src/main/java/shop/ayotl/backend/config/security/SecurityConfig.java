@@ -17,6 +17,7 @@ import org.springframework.security.web.csrf.CsrfException;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import static shop.ayotl.backend.common.constant.AuthenticationConstants.CREATE_USER_URL_MAPPING;
 import static shop.ayotl.backend.common.constant.AuthenticationConstants.LOGIN_URL_MAPPING;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -52,6 +53,7 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers(mvcReqMatcher.pattern("/")).permitAll()
                                 .requestMatchers(antMatcher(HttpMethod.POST, LOGIN_URL_MAPPING)).permitAll()
+                                .requestMatchers(antMatcher(HttpMethod.POST, CREATE_USER_URL_MAPPING)).permitAll()
                                 .requestMatchers(mvcReqMatcher.pattern("/api/**")).authenticated()
                                 .anyRequest().authenticated()
                 )

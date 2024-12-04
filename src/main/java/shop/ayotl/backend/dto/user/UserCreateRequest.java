@@ -1,7 +1,6 @@
 package shop.ayotl.backend.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +22,5 @@ public class UserCreateRequest {
     @NotBlank
     private String secondLastName;
 
-    @NotNull
     private Long roleId;
 }
