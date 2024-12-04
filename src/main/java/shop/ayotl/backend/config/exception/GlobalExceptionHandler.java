@@ -136,6 +136,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
+    @ExceptionHandler(value = {FormatException.class})
+    protected ResponseEntity<ErrorResponse> handleFormatException(FormatException exception) {
+        final var response = ErrorResponse
+                .builder()
+                .message(exception.getMessage())
+                .details(exception.getDetails())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(value = {IOException.class})
+    protected ResponseEntity<ErrorResponse> handleFormatException(IOException exception) {
+        final var response = ErrorResponse
+                .builder()
+                .message(exception.getMessage())
+                .details(exception.getDetails())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<ErrorResponse> handleGeneralException(Exception exception) {
         log.error("General error", exception);

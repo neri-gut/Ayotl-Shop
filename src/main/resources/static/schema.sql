@@ -75,6 +75,7 @@ create table products
     stock       integer        not null,
     category_id bigint         not null,
     image_path  varchar(255),
+    image_mime_type varchar(255),
     created_at  date           not null,
     updated_at  date           not null,
     primary key (id)

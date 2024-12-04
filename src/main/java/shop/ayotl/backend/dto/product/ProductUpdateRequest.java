@@ -2,10 +2,7 @@ package shop.ayotl.backend.dto.product;
 
 import lombok.Getter;
 import lombok.Setter;
-import shop.ayotl.backend.model.Category;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -13,10 +10,8 @@ public class ProductUpdateRequest {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
-    private Category category;
+    private String price;
+    private Long categoryId;
     private Integer stock;
-    private String imagePath;
-    private LocalDate createAt;
-    private LocalDate updateAt;
+    private MultipartFile imageFile;
 }

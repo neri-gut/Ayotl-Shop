@@ -3,8 +3,6 @@ package shop.ayotl.backend.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,11 +42,25 @@ public class Product {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(name = "image_mime_type")
+    private String imageMimeType;
+
     @NotNull
-    @CreatedDate
+    @Setter(AccessLevel.NONE)
     private LocalDate createdAt;
 
     @NotNull
-    @LastModifiedDate
+    @Setter(AccessLevel.NONE)
     private LocalDate updatedAt;
+
+    @PrePersist
+    private void fillDates() {
+        final var today = LocalDate.now();
+
+        if (createdAt == null) {
+            this.createdAt = today;
+        }
+
+        this.updatedAt = today;
+    }
 }

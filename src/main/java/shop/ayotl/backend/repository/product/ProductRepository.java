@@ -5,10 +5,8 @@ import shop.ayotl.backend.dto.product.ProductDto;
 import java.util.List;
 
 public interface ProductRepository {
-    List<ProductDto> findAll();
+    List<ProductDto> findAllWithFilters(Long categoryId, String name);
     ProductDto findById(Long id);
-    ProductDto findByCategory(Long categoryId);
-    ProductDto findByName(String name);
     ProductDto save(ProductDto productDto);
     ProductDto deleteById(Long id);
 }

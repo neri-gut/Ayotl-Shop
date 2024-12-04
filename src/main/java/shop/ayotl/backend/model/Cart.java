@@ -28,6 +28,8 @@ public class Cart {
 
     @PrePersist
     private void fillCreatedAt() {
-        this.createdAt = LocalDate.now();
+        if (createdAt == null) {
+            this.createdAt = LocalDate.now();
+        }
     }
 }
