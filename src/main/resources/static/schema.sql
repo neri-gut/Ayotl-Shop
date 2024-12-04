@@ -131,6 +131,9 @@ create table users_data
 alter table carts
     add constraint uk_ui_c unique (user_id);
 
+alter table cart_products
+    add constraint uk_ci_pi_cp unique (cart_id, product_id);
+
 alter table categories
     add constraint uk_n_c unique (name);
 

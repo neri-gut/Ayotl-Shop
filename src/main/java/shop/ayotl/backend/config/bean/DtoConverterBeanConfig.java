@@ -3,6 +3,7 @@ package shop.ayotl.backend.config.bean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import shop.ayotl.backend.converter.cartproduct.CartProductDtoConverter;
 import shop.ayotl.backend.converter.category.CategoryDtoConverter;
 import shop.ayotl.backend.converter.cart.CartDtoConverter;
 import shop.ayotl.backend.converter.product.ProductDtoConverter;
@@ -24,7 +25,6 @@ public class DtoConverterBeanConfig {
 
     @Bean
     public RoleDtoConverter roleDtoConverter() {
-
         return new RoleDtoConverter();
     }
 
@@ -33,7 +33,6 @@ public class DtoConverterBeanConfig {
         return new CategoryDtoConverter();
     }
 
-
     @Bean
     public CartDtoConverter cartDtoConverter(){ return new CartDtoConverter();}
 
@@ -41,5 +40,9 @@ public class DtoConverterBeanConfig {
     public ProductDtoConverter productDtoConverter(){
         return new ProductDtoConverter();
     }
-  
+
+    @Bean
+    public CartProductDtoConverter cartProductDtoConverter(){
+        return new CartProductDtoConverter();
+    }
 }
