@@ -1,9 +1,12 @@
 package shop.ayotl.backend.service.file;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import shop.ayotl.backend.common.constant.DatePattern;
+import shop.ayotl.backend.converter.date.DateConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Service
@@ -20,8 +24,8 @@ public class FileService {
             return true;
         }
 
-        final boolean isEmpty = file.isEmpty();
-        final String contentType = file.getContentType();
+        final var isEmpty = file.isEmpty();
+        final var contentType = file.getContentType();
 
         return contentType == null || isEmpty;
     }
@@ -41,9 +45,16 @@ public class FileService {
             Files.createDirectory(targetDirectory);
         }
 
-        final String targetDirectoryCanonicalPath = targetDirectory.toFile().getCanonicalPath();
+        final var targetDirectoryCanonicalPath = targetDirectory.toFile().getCanonicalPath();
+        final var fileNameOnly = FilenameUtils.getBaseName(filename);
+        final var extension = FilenameUtils.getExtension(filename);
+        final var now = LocalDateTime.now();
 
-        final var file = new File(pathString + filename);
+        final var file = new File(
+                pathString + fileNameOnly + " - " +
+                        DateConverter.temporalToString(now, DatePattern.DD_MM_YYYY_HH_MM_SS)
+                        + "." + extension
+        );
         final String fileCanonicalPath = file.getCanonicalPath();
 
         if (! fileCanonicalPath.startsWith(targetDirectoryCanonicalPath)) {
