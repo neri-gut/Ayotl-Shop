@@ -88,7 +88,10 @@ public class ProductServiceImpl implements ProductService {
         final var category = categoryRepository.findById(request.getCategoryId());
         final var toCreate = converter.createRequestToDto(request, category);
         toCreate.setImagePath(imagePath);
-        toCreate.setImageMimeType(request.getImageFile().getContentType());
+
+        if (imagePath != null) {
+            toCreate.setImageMimeType(request.getImageFile().getContentType());
+        }
 
         final var imageDataUrl = productImageDataUrl(toCreate);
 
